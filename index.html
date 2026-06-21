@@ -10,16 +10,16 @@
 <body>
   <header>
     <h1>My Website</h1>
+    <a href="/admin/">Open CMS</a>
+    <button onclick="netlifyIdentity.open()">Login</button>
   </header>
 
-  <a href="/admin/">Open CMS</a>
-
-  <button onclick="netlifyIdentity.open()">Login</button>
-
-  <section id="blog">
-    <h2>Blog</h2>
-    <div id="posts">Loading posts…</div>
-  </section>
+  <main>
+    <section id="posts">
+      <h2>Latest Posts</h2>
+      <div id="posts-list">Loading posts…</div>
+    </section>
+  </main>
 
   <script>
     if (window.netlifyIdentity) {
@@ -32,93 +32,51 @@
       });
     }
 
-    // Try to load blog posts from admin/_posts/
+    // List of markdown files in _posts (generated from repository files)
+    const postFiles = [
+      '_posts/ab-rahman.md',
+      '_posts/hi-anfal.md',
+      '_posts/hi-muntaseem.md'
+    ];
+
+    function parseFrontMatter(md) {
+      const fmMatch = md.match(/^---\s*\n([\s\S]*?)\n---\s*\n?/);
+      let fm = {};
+      let content = md;
+      if (fmMatch) {
+        const fmText = fmMatch[1];
+        content = md.slice(fmMatch[0].length).trim();
+        const titleMatch = fmText.match(/title:\s*["']?(.*?)["']?\s*$/m);
+        if (titleMatch) fm.title = titleMatch[1].trim();
+      }
+      return { frontmatter: fm, content };
+    }
+
     async function loadPosts() {
-      const container = document.getElementById('posts');
-      container.textContent = '';
+      const listEl = document.getElementById('posts-list');
+      listEl.innerHTML = '';
+      for (const path of postFiles) {
+        try {
+          const res = await fetch('./' + path);
+          if (!res.ok) throw new Error('Not found');
+          const md = await res.text();
+          const { frontmatter, content } = parseFrontMatter(md);
+          const title = frontmatter.title || path;
+          const excerpt = (content || '').replace(/<!--([\s\S]*?)-->/g, '').split('\n').find(l => l.trim()) || '';
 
-      // Helper to render a post
-      function renderPost(post) {
-        const el = document.createElement('article');
-        const h = document.createElement('h3');
-        h.textContent = post.title || 'Untitled';
-        const b = document.createElement('div');
-        b.innerHTML = post.body || '';
-        el.appendChild(h);
-        el.appendChild(b);
-        container.appendChild(el);
-      }
-
-      // 1) Try posts.json convention
-      try {
-        const res = await fetch('./admin/_posts/posts.json');
-        if (res.ok) {
-          const posts = await res.json();
-          if (Array.isArray(posts) && posts.length) {
-            posts.forEach(renderPost);
-            return;
-          }
+          const article = document.createElement('article');
+          const h3 = document.createElement('h3');
+          h3.textContent = title;
+          const p = document.createElement('p');
+          p.textContent = excerpt.length > 200 ? excerpt.slice(0, 200) + '…' : excerpt;
+          article.appendChild(h3);
+          article.appendChild(p);
+          listEl.appendChild(article);
+        } catch (err) {
+          console.warn('Failed to load', path, err.message);
         }
-      } catch (e) {
-        // continue to next strategy
       }
-
-      // 2) Try directory listing parse (if hosting exposes index)
-      try {
-        const res = await fetch('./admin/_posts/');
-        if (res.ok) {
-          const text = await res.text();
-          // find hrefs
-          const hrefs = Array.from(text.matchAll(/href="([^"]+)"/g)).map(m => m[1]);
-          const files = hrefs.filter(h => /\.(md|markdown|json|html)$/i.test(h));
-          if (files.length) {
-            for (const f of files) {
-              try {
-                const r = await fetch('./admin/_posts/' + f);
-                if (!r.ok) continue;
-                const ext = f.split('.').pop().toLowerCase();
-                const txt = await r.text();
-                if (ext === 'json') {
-                  const obj = JSON.parse(txt);
-                  renderPost(obj);
-                } else if (ext === 'md' || ext === 'markdown' || ext === 'html') {
-                  // naive frontmatter/title parsing
-                  let title = '';
-                  let body = txt;
-                  const fm = txt.match(/^---\n([\s\S]*?)\n---/);
-                  if (fm) {
-                    body = txt.slice(fm[0].length);
-                    const titleMatch = fm[1].match(/title:\s*(?:"([^"]+)"|'([^']+)'|([^\n]+))/i);
-                    if (titleMatch) title = titleMatch[1] || titleMatch[2] || titleMatch[3];
-                  }
-                  if (!title) {
-                    const hMatch = body.match(/^#\s*(.+)/m);
-                    if (hMatch) {
-                      title = hMatch[1].trim();
-                      body = body.replace(hMatch[0], '');
-                    }
-                  }
-                  // minimal markdown-to-html: headings and paragraphs
-                  const html = body
-                    .replace(/^### (.*)$/gm, '<h3>$1</h3>')
-                    .replace(/^## (.*)$/gm, '<h2>$1</h2>')
-                    .replace(/^# (.*)$/gm, '<h1>$1</h1>')
-                    .replace(/\n\n+/g, '</p><p>')
-                    .replace(/\n/g, '<br/>');
-                  renderPost({ title: title || 'Untitled', body: '<p>' + html + '</p>' });
-                }
-              } catch (e) {
-                // skip file
-              }
-            }
-            return;
-          }
-        }
-      } catch (e) {
-        // ignore
-      }
-
-      container.textContent = 'No posts found in the `blog` collection.';
+      if (!listEl.children.length) listEl.textContent = 'No posts found.';
     }
 
     loadPosts();
