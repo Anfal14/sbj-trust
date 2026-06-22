@@ -1,0 +1,17 @@
+<section id="members" class="py-5">
+  <div class="container">
+    <div class="sec-badge">The Team</div>
+    <h2 class="sec-title">Our <span>Members</span></h2>
+    <p class="sec-subtitle">The dedicated individuals who drive our mission forward — with commitment, compassion, and community spirit.</p>
+
+    <div class="row g-4 justify-content-center">
+      <div class="col-6 col-md-3" *ngFor="let member of members">
+        <div class="member-card">
+          <img [src]="member.image" [alt]="member.name" />
+          <p class="m-name">{{ member.name }}</p>
+          <span class="m-role">{{ member.role }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

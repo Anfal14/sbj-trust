@@ -1,0 +1,22 @@
+<section id="activities" class="py-5">
+  <div class="container">
+    <div class="sec-badge">What We Do</div>
+    <h2 class="sec-title">Our <span>Activities</span></h2>
+    <p class="sec-subtitle">We work across multiple areas to uplift families in the Bagban community — from classrooms to clinics.</p>
+
+    <div class="row g-4">
+      <div class="col-md-4" *ngFor="let act of activities">
+        <div class="card activity-card h-100">
+          <img [src]="act.image" class="card-img-top" [alt]="act.title" style="object-fit:cover;" />
+          <div class="card-body">
+            <div class="icon-badge" [style.background]="act.badgeBg">
+              <i class="bi" [ngClass]="act.iconClass" [style.color]="act.iconColor"></i>
+            </div>
+            <h5 class="card-title">{{ act.title }}</h5>
+            <p class="card-text text-muted" style="font-size:.9rem;">{{ act.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
