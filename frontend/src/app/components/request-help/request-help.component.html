@@ -1,0 +1,57 @@
+<section id="request-help" class="py-5">
+  <div class="container position-relative">
+    <div class="row justify-content-center mb-2">
+      <div class="col-lg-7 text-center">
+        <div class="sec-badge" style="background:rgba(255,103,31,.2); border-color:rgba(255,103,31,.4); color:#ffb085;">Need Support?</div>
+        <h2 class="sec-title">Request <span>Help</span></h2>
+        <p class="sec-subtitle mx-auto">Fill in the form below and our team will reach out within 48 hours — your request is completely confidential.</p>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-lg-7">
+        <div class="form-wrap">
+          <div *ngIf="submitted" class="alert text-center mb-3" style="background:rgba(19,136,8,.15);border:1px solid rgba(19,136,8,.3);color:#a7f3d0;border-radius:12px;">
+            <i class="bi bi-check-circle-fill me-2"></i>Your request has been submitted! We'll contact you within 48 hours.
+          </div>
+          <form (ngSubmit)="onSubmit()" #helpForm="ngForm" *ngIf="!submitted">
+            <div class="row g-3">
+              <div class="col-sm-6">
+                <label class="form-label">Full Name</label>
+                <input type="text" class="form-control" placeholder="Your full name" [(ngModel)]="form.name" name="name" required />
+              </div>
+              <div class="col-sm-6">
+                <label class="form-label">Phone Number</label>
+                <input type="tel" class="form-control" placeholder="+91 XXXXX XXXXX" [(ngModel)]="form.phone" name="phone" />
+              </div>
+              <div class="col-12">
+                <label class="form-label">Email Address</label>
+                <input type="email" class="form-control" placeholder="you@example.com" [(ngModel)]="form.email" name="email" />
+              </div>
+              <div class="col-12">
+                <label class="form-label">Type of Help Needed</label>
+                <select class="form-select" [(ngModel)]="form.helpType" name="helpType">
+                  <option value="" disabled selected>Select a category</option>
+                  <option>Education / Scholarship</option>
+                  <option>Medical / Healthcare</option>
+                  <option>Financial Assistance</option>
+                  <option>Ration / Food Support</option>
+                  <option>Legal Aid</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Describe Your Situation</label>
+                <textarea class="form-control" rows="4" placeholder="Please briefly describe what help you need..." [(ngModel)]="form.description" name="description"></textarea>
+              </div>
+              <div class="col-12 text-center pt-1">
+                <button type="submit" class="btn btn-submit">
+                  <i class="bi bi-send-fill me-2"></i>Submit Request
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
