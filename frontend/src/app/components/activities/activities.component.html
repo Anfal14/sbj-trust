@@ -1,0 +1,36 @@
+<section id="activities" class="py-5">
+  <div class="container">
+
+    <div class="sec-badge">What We Do</div>
+    <h2 class="sec-title">Our <span>Activities</span></h2>
+    <p class="sec-subtitle">We work across multiple areas to uplift families in the Minority community — from classrooms to clinics.</p>
+
+    <div class="act-row row align-items-center gy-4"
+         *ngFor="let act of activities; let i = index; let last = last"
+         [class.mb-5]="!last" [class.mb-0]="last">
+
+      <!-- Image column: left on even rows, right on odd rows -->
+      <div class="col-md-6" [class.order-md-2]="i % 2 !== 0">
+        <div class="act-img-wrap">
+          <img [src]="act.image" [alt]="act.title" class="act-img" />
+        </div>
+      </div>
+
+      <!-- Text column -->
+      <div class="col-md-6" [class.order-md-1]="i % 2 !== 0">
+        <div class="act-text">
+          <div class="act-meta">
+            <span class="act-category-badge">{{ act.category }}</span>
+            <span class="act-date-badge">
+              <i class="bi bi-calendar3 me-1"></i>{{ act.date }}
+            </span>
+          </div>
+          <h3 class="act-title">{{ act.title }}</h3>
+          <p class="act-desc">{{ act.description }}</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>

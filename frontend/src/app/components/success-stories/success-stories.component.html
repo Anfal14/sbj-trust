@@ -1,0 +1,20 @@
+<section id="success-stories" class="py-5">
+  <div class="container">
+    <div class="sec-badge">Impact Stories</div>
+    <h2 class="sec-title">Lives <span>Transformed</span></h2>
+    <p class="sec-subtitle">Real people, real impact — hear directly from those whose lives SBJ has touched and changed.</p>
+
+    <div class="row g-4">
+      <div class="col-md-4" *ngFor="let s of stories">
+        <div class="story-card">
+          <img [src]="s.avatar" [alt]="s.name" class="avatar" />
+          <div class="quote-icon"><i class="bi bi-quote"></i></div>
+          <blockquote>"{{ s.quote }}"</blockquote>
+          <p class="s-name">{{ s.name }}</p>
+          <p class="s-role">{{ s.role }}<span *ngIf="s.place"> · {{ s.place }}</span></p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>

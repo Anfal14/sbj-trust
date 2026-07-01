@@ -1,0 +1,88 @@
+:host {
+  display: block;
+}
+
+#home {
+  padding-top: 18px;
+}
+
+.hero-top-heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: .85rem;
+}
+
+.hero-heading-stack {
+  background: linear-gradient(135deg, rgba(255, 103, 31, .1), rgba(249, 115, 22, .05));
+  border: 1px solid rgba(255, 103, 31, .18);
+  border-radius: 10px;
+  box-shadow: 0 6px 22px rgba(255, 103, 31, .08);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 100%;
+  padding: .45rem 1rem .55rem;
+  width: 100%;
+}
+
+.hero-org-heading {
+  background: none;
+  color: var(--orange);
+  font-family: 'Noto Sans Devanagari', 'Mukta', 'Mangal', 'Kohinoor Devanagari', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.38;
+  margin: 0;
+  padding: .15rem 0;
+  text-align: center;
+  width: 100%;
+  -webkit-text-fill-color: var(--orange);
+}
+
+.hero-top-heading .hero-badge {
+  font-size: .62rem;
+  flex-shrink: 0;
+  margin-bottom: .1rem;
+  padding: .22rem .7rem;
+  white-space: nowrap;
+}
+
+.hero-logo-inline {
+  width: 180px;
+  height: 180px;
+}
+
+#home .tagline {
+  color: var(--navy);
+  font-family: 'Noto Sans Devanagari', 'Mukta', 'Mangal', sans-serif;
+  font-size: 1.18rem;
+  font-style: italic;
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+@media (max-width: 768px) {
+  .hero-top-heading {
+    justify-content: flex-start;
+  }
+
+  .hero-heading-stack {
+    align-items: flex-start;
+  }
+
+  .hero-org-heading {
+    text-align: left;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-logo-inline {
+    width: 105px;
+    height: 105px;
+  }
+
+  #home .tagline {
+    font-size: 1.05rem;
+  }
+}
