@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "sbj_stories",
+  "info": {
+    "singularName": "sbj-story",
+    "pluralName": "sbj-stories",
+    "displayName": "SBJStory"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "name": {
+      "type": "string"
+    },
+    "testimonial": {
+      "type": "text"
+    },
+    "profession": {
+      "type": "string"
+    },
+    "place": {
+      "type": "string"
+    }
+  }
+}
