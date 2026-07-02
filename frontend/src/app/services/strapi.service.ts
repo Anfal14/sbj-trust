@@ -30,7 +30,7 @@ export class StrapiService {
   }
 
   getMembers(): Observable<any> {
-    return this.http.get(`${this.url}/api/sbj-members?populate=*&pagination[pageSize]=50`, { headers: this.headers });
+    return this.http.get(`${this.url}/api/sbj-members?populate=*&pagination[pageSize]=30`, { headers: this.headers });
   }
 
   getStories(): Observable<any> {
